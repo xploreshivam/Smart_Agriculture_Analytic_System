@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+.env
+.idea/
+.vscode/
+*.pyc
+startup_log.txt
+.vercel/
+.vercelignore

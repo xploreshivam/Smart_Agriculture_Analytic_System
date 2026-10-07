@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="glass-card animate-fade-in">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-wheat text-warning me-2"></i><span data-i18n="title_yield">Crop Yield Prediction</span>
+                </h2>
+                <form action="/predict-yield" method="POST">
+                    <input type="hidden" name="lang" class="lang-input" value="en">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" data-i18n="lbl_crop_name">Crop Name</label>
+                            <select class="form-select bg-dark text-white border-secondary" name="crop" required>
+                                <option value="Wheat" data-i18n="crop_wheat" {% if input_data and input_data['crop'] == 'Wheat' %}selected{% endif %}>Wheat</option>
+                                <option value="Rice" data-i18n="crop_rice" {% if input_data and input_data['crop'] == 'Rice' %}selected{% endif %}>Rice</option>
+                                <option value="Maize" data-i18n="crop_maize" {% if input_data and input_data['crop'] == 'Maize' %}selected{% endif %}>Maize</option>
+                                <option value="Sugarcane" data-i18n="crop_sugarcane" {% if input_data and input_data['crop'] == 'Sugarcane' %}selected{% endif %}>Sugarcane</option>
+                                <option value="Cotton" data-i18n="crop_cotton" {% if input_data and input_data['crop'] == 'Cotton' %}selected{% endif %}>Cotton</option>
+                                <option value="Soybean" data-i18n="crop_soybean" {% if input_data and input_data['crop'] == 'Soybean' %}selected{% endif %}>Soybean</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" data-i18n="lbl_area">Area (Hectares)</label>
+                            <input type="number" step="0.1" class="form-control" name="area" required
+                                data-i18n-ph="ph_area" placeholder="Example: 5.5" value="{{ input_data['area'] if input_data else '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" data-i18n="lbl_rainfall">Average Rainfall (mm)</label>
+                            <input type="number" step="0.1" class="form-control" name="rainfall" required
+                                data-i18n-ph="ph_rain" placeholder="Example: 1200" value="{{ input_data['rainfall'] if input_data else '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" data-i18n="lbl_temperature">Temperature (°C)</label>
+                            <input type="number" step="0.1" class="form-control" name="temperature" required
+                                data-i18n-ph="ph_temp" placeholder="Example: 28" value="{{ input_data['temperature'] if input_data else '' }}">
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-custom btn-lg" data-i18n="btn_predict_yield">Predict Yield</button>
+                    </div>
+                </form>
+
+                {% if result %}
+                <div class="alert alert-info mt-4 text-center animate-fade-in" role="alert">
+                    <h4 class="alert-heading" data-i18n="res_yield_head">Predicted Yield</h4>
+                    <p class="display-6">{{ result }} Tonnes</p>
+                    <hr>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
